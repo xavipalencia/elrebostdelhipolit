@@ -1,0 +1,39 @@
+rest_command:
+  add_whatsapp_message_to_shopping_list:
+    url: "http://{{ host_ip }}:8000/api/whatsapp"
+    method: POST
+    headers:
+      content-type: application/json
+      authorization: "Bearer {{ shopping_list_token }}"
+    payload: '{"message":"{{ message }}"}'
+
+webhook:
+  shopping_list_whatsapp:
+    allowed_methods:
+      - POST
+    local_only: false
+
+automation:
+  - alias: "Afegir missatge de WhatsApp a la llista de la compra"
+    triggers:
+      - trigger: event
+        event_type: whatsapp_message
+    actions:
+      - action: rest_command.add_whatsapp_message_to_shopping_list
+        data:
+          host_ip: "192.168.1.50"
+          shopping_list_token: "!secret shopping_list_token"
+          message: "{{ trigger.event.data.message }}"
+
+  - alias: "Webhook per afegir missatge de WhatsApp a la llista"
+    triggers:
+      - trigger: webhook
+        webhook_id: shopping_list_whatsapp
+        allowed_methods:
+          - POST
+    actions:
+      - action: rest_command.add_whatsapp_message_to_shopping_list
+        data:
+          host_ip: "192.168.1.50"
+          shopping_list_token: "!secret shopping_list_token"
+          message: "{{ trigger.json.message | default(trigger.data.message, true) }}"

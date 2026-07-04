@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ca">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>La compra</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header>
+        <div>
+          <p class="eyebrow">Gestió de la compra</p>
+          <h1>Llista de la compra</h1>
+        </div>
+        <button id="clearCompleted" class="secondary">Netejar completades</button>
+      </header>
+
+      <section class="panel">
+        <form id="addItemForm" class="add-form">
+          <input id="itemText" name="text" type="text" placeholder="Què falta?" required />
+          <button type="submit">Afegir</button>
+        </form>
+        <form id="bulkImportForm" class="add-form compact">
+          <textarea id="bulkText" name="message" rows="3" placeholder="Pots enganxar diverses línies o un missatge del WhatsApp"></textarea>
+          <button type="submit" class="secondary">Importar</button>
+        </form>
+      </section>
+
+      <section id="categories" class="categories"></section>
+      <section id="items" class="items"></section>
+    </main>
+
+    <script>
+      const state = { items: [] };
+      const itemsEl = document.getElementById('items');
+      const categoriesEl = document.getElementById('categories');
+
+      async function loadItems() {
+        const response = await fetch('/api/items');
+        state.items = await response.json();
+        render();
+      }
+
+      async function loadCategories() {
+        const response = await fetch('/api/categories');
+        const categories = await response.json();
+        categoriesEl.innerHTML = categories.map((category) => `
+          <div class="chip">${category.name} · ${category.count}</div>
+        `).join('');
+      }
+
+      function render() {
+        const groups = state.items.reduce((acc, item) => {
+          const group = acc[item.category] || [];
+          group.push(item);
+          acc[item.category] = group;
+          return acc;
+        }, {});
+
+        const sections = Object.entries(groups).map(([category, items]) => `
+          <article class="group">
+            <h2>${category}</h2>
+            <ul>
+              ${items.map((item) => `
+                <li class="item ${item.checked ? 'done' : ''}">
+                  <label>
+                    <input type="checkbox" ${item.checked ? 'checked' : ''} data-id="${item.id}" />
+                    <span>${escapeHtml(item.text)}</span>
+                  </label>
+                  <button class="ghost" data-delete-id="${item.id}">✕</button>
+                </li>
+              `).join('')}
+            </ul>
+          </article>
+        `).join('');
+
+        itemsEl.innerHTML = sections || '<p class="empty">Encara no hi ha res a la llista.</p>';
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll('&', '&amp;')
+          .replaceAll('<', '&lt;')
+          .replaceAll('>', '&gt;')
+          .replaceAll('"', '&quot;')
+          .replaceAll("'", '&#39;');
+      }
+
+      document.getElementById('addItemForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        await fetch('/api/items', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: formData.get('text') })
+        });
+        event.currentTarget.reset();
+        await loadItems();
+        await loadCategories();
+      });
+
+      document.getElementById('bulkImportForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        await fetch('/api/whatsapp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: formData.get('message') })
+        });
+        event.currentTarget.reset();
+        await loadItems();
+        await loadCategories();
+      });
+
+      document.getElementById('clearCompleted').addEventListener('click', async () => {
+        await fetch('/api/clear-completed', { method: 'POST' });
+        await loadItems();
+        await loadCategories();
+      });
+
+      itemsEl.addEventListener('change', async (event) => {
+        if (event.target.matches('input[type="checkbox"]')) {
+          const id = event.target.getAttribute('data-id');
+          await fetch(`/api/items/${id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ checked: event.target.checked })
+          });
+          await loadItems();
+        }
+      });
+
+      itemsEl.addEventListener('click', async (event) => {
+        const button = event.target.closest('button[data-delete-id]');
+        if (!button) return;
+        const id = button.getAttribute('data-delete-id');
+        await fetch(`/api/items/${id}`, { method: 'DELETE' });
+        await loadItems();
+        await loadCategories();
+      });
+
+      loadItems();
+      loadCategories();
+    </script>
+  </body>
+</html>
