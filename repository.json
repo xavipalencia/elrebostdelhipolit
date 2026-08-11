@@ -7,7 +7,7 @@
     "wa-shopping-bot": {
       "name": "WA Shopping Bot",
       "description": "Bot de WhatsApp per la llista de la compra de Home Assistant",
-      "url": "https://github.com/xavipalencia/elrebostdelhipolit",
+      "url": "https://raw.githubusercontent.com/xavipalencia/elrebostdelhipolit/main/wa-shopping-bot/config.json",
       "version": "1.0.0"
     }
   }
