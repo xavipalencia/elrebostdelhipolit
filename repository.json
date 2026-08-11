@@ -1,0 +1,14 @@
+{
+  "name": "WA Shopping Bot Add-on Repository",
+  "maintainer": "xavipalencia",
+  "url": "https://github.com/xavipalencia/elrebostdelhipolit",
+  "version": "1.0.0",
+  "addons": {
+    "wa-shopping-bot": {
+      "name": "WA Shopping Bot",
+      "description": "Bot de WhatsApp per la llista de la compra de Home Assistant",
+      "url": "https://github.com/xavipalencia/elrebostdelhipolit",
+      "version": "1.0.0"
+    }
+  }
+}
