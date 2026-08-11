@@ -1,0 +1,6 @@
+{
+  "ssh_host": "homeassistant.local",
+  "ssh_port": 22222,
+  "ssh_user": "root",
+  "target_dir": "/addons/wa_shopping_bot"
+}

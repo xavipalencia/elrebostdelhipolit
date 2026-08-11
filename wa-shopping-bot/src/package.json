@@ -1,0 +1,12 @@
+{
+  "name": "wa-shopping-bot",
+  "version": "1.0.0",
+  "description": "Bot WhatsApp per llista de la compra",
+  "main": "index.js",
+  "dependencies": {
+    "@whiskeysockets/baileys": "latest",
+    "node-fetch": "^2.7.0",
+    "pino": "^8.0.0",
+    "qrcode-terminal": "^0.12.0"
+  }
+}

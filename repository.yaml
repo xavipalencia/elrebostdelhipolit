@@ -1,0 +1,6 @@
+add-ons:
+  wa-shopping-bot:
+    name: "WA Shopping Bot"
+    description: "Bot de WhatsApp per la llista de la compra de Home Assistant"
+    version: "1.0.0"
+    url: "https://github.com/xavipalencia/elrebostdelhipolit"

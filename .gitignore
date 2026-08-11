@@ -1,0 +1,4 @@
+deploy-config.json
+wa-shopping-bot/src/node_modules/
+wa-shopping-bot/src/npm-debug.log*
+wa-shopping-bot/src/package-lock.json
