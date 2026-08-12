@@ -1,7 +1,7 @@
 name: "WA Shopping Bot"
 description: "Bot de WhatsApp per gestionar la llista de la compra amb IA"
 version: "1.0.0"
-slug: "wa_shopping_bot"
+slug: "wa_shopping_bot_hipolit"
 init: false
 arch:
   - amd64
