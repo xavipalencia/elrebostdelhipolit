@@ -17,4 +17,4 @@ COPY src/ .
 COPY run.sh /run.sh
 RUN chmod +x /run.sh
 
-CMD ["/init"]
+CMD ["/run.sh"]

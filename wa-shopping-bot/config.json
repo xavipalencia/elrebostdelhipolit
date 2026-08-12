@@ -1,8 +1,9 @@
 {
   "name": "WA Shopping Bot",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "slug": "wa_shopping_bot_hipolit",
   "description": "Bot de WhatsApp per gestionar la llista de la compra amb IA",
+  "init": false,
   "startup": "application",
   "boot": "auto",
   "arch": [

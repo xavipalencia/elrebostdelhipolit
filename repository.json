@@ -2,13 +2,13 @@
   "name": "WA Shopping Bot Add-on Repository",
   "maintainer": "xavipalencia",
   "url": "https://github.com/xavipalencia/elrebostdelhipolit",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "addons": {
     "wa_shopping_bot_hipolit": {
       "name": "El Rebost del Hipòlit",
       "description": "Bot de WhatsApp per la llista de la compra de Home Assistant",
       "url": "https://raw.githubusercontent.com/xavipalencia/elrebostdelhipolit/main/wa-shopping-bot/config.json",
-      "version": "1.0.0",
+      "version": "1.0.2",
       "maintainer": "Xavi Palència"
     }
   }
