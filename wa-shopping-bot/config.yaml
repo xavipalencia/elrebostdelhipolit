@@ -1,25 +1,32 @@
 name: "WA Shopping Bot"
 description: "Bot de WhatsApp per gestionar la llista de la compra amb IA"
-version: "1.0.2"
+version: "1.0.0"
 slug: "wa_shopping_bot_hipolit"
+
 init: false
+
 arch:
   - amd64
   - aarch64
+
 startup: application
 boot: auto
+
 map:
   - config:rw
+
 options:
   whatsapp_group_name: "Llistes compra"
   ha_token: ""
   ha_url: "http://supervisor/core"
   gemini_api_key: ""
   todo_list_entity: "todo.llista_compra"
+
 schema:
   whatsapp_group_name: str
   ha_token: str
   ha_url: str
   gemini_api_key: str
   todo_list_entity: str
+
 panel_icon: mdi:cart
